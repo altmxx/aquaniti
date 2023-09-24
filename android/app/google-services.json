@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "738811570166",
+    "project_id": "aquaniti",
+    "storage_bucket": "aquaniti.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738811570166:android:b9a5fddb5cc62db01849d7",
+        "android_client_info": {
+          "package_name": "com.example.aquaniti"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6tqaTQQr7cXajulT1iUapsUI7U7hZe0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

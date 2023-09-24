@@ -1,0 +1,127 @@
+import 'package:aquaniti/common/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../constants/global_variables.dart';
+
+class ProfileStatsView extends StatelessWidget {
+  const ProfileStatsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 314.w,
+      height: 168.h,
+      decoration: BoxDecoration(
+        color: GlobalVariables.secondaryColor,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(left: 19.w, top: 12.h),
+        child: Column(children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 30.r,
+                backgroundColor: Colors.white,
+              ),
+              horizontalSpace(24.w),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Alan Becker"),
+                  Text("Jaipur"),
+                  Text("Rajasthan"),
+                ],
+              )
+            ],
+          ),
+          verticalSpace(24.h),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    height: 40.h,
+                    width: 40.w,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: Color(0xff88C20E),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      "90",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 47,
+                    child: Text(
+                      "Personal WF",
+                      style: TextStyle(fontSize: 9.sp),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    height: 40.h,
+                    width: 40.w,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: Color(0xffD54646),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      "150",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 47,
+                    child: Text(
+                      "Local WF",
+                      style: TextStyle(fontSize: 9.sp),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 8.h),
+                child: Column(
+                  children: [
+                    Text(
+                      "15",
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Leaderboard",
+                      style: TextStyle(fontSize: 12.sp),
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          )
+        ]),
+      ),
+    );
+  }
+}
