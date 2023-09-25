@@ -47,8 +47,8 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBuwbYm5i93mZczzemKGK-T2RqbGHo9oCQ',
-    appId: '1:738811570166:web:2b31cf6f237ce7591849d7',
+    apiKey: 'YOUR API KEY',
+    appId: 'YOUR APP ID',
     messagingSenderId: '738811570166',
     projectId: 'aquaniti',
     authDomain: 'aquaniti.firebaseapp.com',
@@ -57,16 +57,16 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC6tqaTQQr7cXajulT1iUapsUI7U7hZe0Y',
-    appId: '1:738811570166:android:b9a5fddb5cc62db01849d7',
+    apiKey: 'YOUR API KEY',
+    appId: 'YOUR APP ID',
     messagingSenderId: '738811570166',
     projectId: 'aquaniti',
     storageBucket: 'aquaniti.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCjWo_1hN7vC0E3FllgnPn43NSOZuJOOcE',
-    appId: '1:738811570166:ios:44a12ff9f3f329301849d7',
+    apiKey: 'YOUR API KEY',
+    appId: 'YOUR APP ID',
     messagingSenderId: '738811570166',
     projectId: 'aquaniti',
     storageBucket: 'aquaniti.appspot.com',
