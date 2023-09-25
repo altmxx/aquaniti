@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:aquaniti/models/article.dart';
-import 'package:aquaniti/sercrets.dart';
+import 'package:aquaniti/secrets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
