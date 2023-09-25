@@ -1,6 +1,7 @@
 import 'package:aquaniti/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WaterFootprintListTile extends StatelessWidget {
   const WaterFootprintListTile({super.key});
@@ -30,14 +31,14 @@ class WaterFootprintListTile extends StatelessWidget {
                 ),
               ),
               Text(
-                "Purchased on: 19/09/23",
+                "${AppLocalizations.of(context)!.purchasedDate}: 19/09/23",
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               Text(
-                "Water Footprint: 15",
+                "${AppLocalizations.of(context)!.yourWaterFootprint}: 15",
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,

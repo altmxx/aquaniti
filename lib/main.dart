@@ -1,26 +1,22 @@
 import 'dart:developer';
 
 import 'package:aquaniti/constants/global_variables.dart';
-// import 'package:aquaniti/features/auth/screens/signIn_screen.dart';
 import 'package:aquaniti/features/auth/services/authProvider.dart';
 import 'package:aquaniti/features/auth/services/signIn_provider.dart';
-// import 'package:aquaniti/features/awareness/screens/awareness_screen.dart';
 import 'package:aquaniti/features/camera/cameras.dart';
-// import 'package:aquaniti/features/home/screens/home_screen.dart';
 import 'package:aquaniti/features/home/screens/main_screen.dart';
 import 'package:aquaniti/features/home/services/home_services.dart';
 import 'package:aquaniti/features/insights/services/insightsProvider.dart';
 import 'package:aquaniti/features/localization/locale_constants.dart';
-import 'package:aquaniti/features/localization/localizations_delegate.dart';
 import 'package:aquaniti/firebase_options.dart';
 import 'package:aquaniti/router.dart';
 import 'package:camera/camera.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 List<CameraDescription>? cameras;
@@ -28,7 +24,7 @@ List<CameraDescription>? cameras;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
-  log(cameras.toString());
+  // log(cameras.toString());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -42,26 +38,25 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  static void setLocale(BuildContext context, Locale newLocale) {
-    var state = context.findAncestorStateOfType<_MyAppState>();
-    state!.setLocale(newLocale);
-  }
-
   const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>();
+  // static _MyAppState? of(BuildContext context) =>
+  //     context.findAncestorStateOfType<_MyAppState>();
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
 }
 
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
 
-  void setLocale(Locale value) {
+  setLocale(Locale locale) {
     setState(() {
-      _locale = value;
+      _locale = locale;
     });
   }
 
@@ -88,21 +83,14 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           // supportedLocales: [],
           locale: _locale,
-          localizationsDelegates: const [
-            AppLocalizationsDelegate(),
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           // localeListResolutionCallback: (locale,supportedLocales){
           //   for(var supportedLocale in supportedLocales){
           //     if(supportedLocale.languageCode == locale.)
           //   }
           // },
-          supportedLocales: [
-            Locale("en", ''),
-            Locale("hi", ''),
-          ],
+
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
@@ -133,7 +121,7 @@ class _MyAppState extends State<MyApp> {
           //     }
           //   },
           // ),
-          home: MainScreen(),
+          home: const MainScreen(),
           onGenerateRoute: (settings) => generateRoute(settings),
         );
       }),

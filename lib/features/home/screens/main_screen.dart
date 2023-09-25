@@ -8,6 +8,7 @@ import 'package:aquaniti/features/profile/screens/profile_screen.dart';
 import 'package:aquaniti/features/settings/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 var currentIndex = 1;
 
@@ -40,24 +41,24 @@ class _MainScreenState extends State<MainScreen> {
         ],
         title: currentIndex == 0
             ? Text(
-                "Home",
+                AppLocalizations.of(context)!.home,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
               )
             : currentIndex == 1
                 ? Text(
-                    "Dashboard",
+                    AppLocalizations.of(context)!.dashboard,
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
                   )
                 : currentIndex == 2
                     ? Text(
-                        "Insights",
+                        AppLocalizations.of(context)!.insights,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20.sp),
                       )
                     : currentIndex == 3
                         ? Text(
-                            "Profile",
+                            AppLocalizations.of(context)!.profile,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20.sp),
                           )
@@ -98,23 +99,23 @@ class _MainScreenState extends State<MainScreen> {
                   log(currentIndex.toString());
                 });
               },
-              items: const [
+              items: [
                 BottomNavigationBarItem(
                     backgroundColor: Colors.white,
-                    icon: Icon(Icons.home),
-                    label: "Home"),
+                    icon: const Icon(Icons.home),
+                    label: AppLocalizations.of(context)!.home),
                 BottomNavigationBarItem(
                     backgroundColor: Colors.white,
-                    icon: Icon(Icons.dashboard_outlined),
-                    label: "Dashboard"),
+                    icon: const Icon(Icons.dashboard_outlined),
+                    label: AppLocalizations.of(context)!.dashboard),
                 BottomNavigationBarItem(
                     backgroundColor: Colors.white,
-                    icon: Icon(Icons.analytics),
-                    label: "Analytics"),
+                    icon: const Icon(Icons.analytics),
+                    label: AppLocalizations.of(context)!.analytics),
                 BottomNavigationBarItem(
                     backgroundColor: Colors.white,
-                    icon: Icon(Icons.person),
-                    label: "Profile"),
+                    icon: const Icon(Icons.person),
+                    label: AppLocalizations.of(context)!.profile),
               ],
             ),
           )

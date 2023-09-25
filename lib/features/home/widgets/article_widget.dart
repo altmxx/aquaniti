@@ -18,14 +18,14 @@ class ArticleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 12.h, left: 13.38.w, right: 13.38.w),
-      height: 200.h,
+      // height: 200.h,
       width: 142.w,
       decoration: BoxDecoration(
         color: GlobalVariables.secondaryColor,
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 115.25.w,
@@ -43,17 +43,18 @@ class ArticleWidget extends StatelessWidget {
           Text(
             article.title,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 10.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
+          verticalSpace(4.h),
           Text(
             article.summary,
             style: TextStyle(
               fontSize: 10.sp,
               fontWeight: FontWeight.w400,
             ),
-            maxLines: 5,
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
           verticalSpace(12.h),

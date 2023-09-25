@@ -1,0 +1,15 @@
+{
+  "dashboard":"Dashboard",
+  "settings":"Settings",
+  "analytics":"Analytics",
+  "home":"Home",
+  "insights":"Insights",
+  "profile":"Profile",
+  "popularArticles":"Popular Articles",
+  "personalWaterfootprint":"Personal WF",
+  "localWaterfootprint":"Local WF",
+  "leaderboard":"Leaderboard",
+  "yourWaterFootprint":"Your Water Footprint",
+  "purchasedDate":"Purchased on",
+  "viewEntireHistory":"View Entire History"
+}

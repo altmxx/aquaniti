@@ -4,16 +4,32 @@ import 'package:aquaniti/features/home/widgets/article_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = "/homeScreen";
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    homeProvider.getArticles();
+  }
 
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);
     // homeProvider.getArticles();
-
+    // if (homeProvider.article.isEmpty) {
+    //   homeProvider.getArticles();
+    // }
     return Scaffold(
         body: Center(
       child: SingleChildScrollView(
@@ -35,7 +51,7 @@ class HomeScreen extends StatelessWidget {
               width: double.infinity,
               alignment: Alignment.centerLeft,
               child: Text(
-                "Popular Articles",
+                AppLocalizations.of(context)!.popularArticles,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
@@ -43,17 +59,26 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             // ArticleWidget()
-            GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-              itemBuilder: (ctx, i) {
-                homeProvider.getArticles();
-                return ArticleWidget(article: homeProvider.article[i]);
-              },
-              itemCount: homeProvider.article.length,
-            )
+            // if (homeProvider.article.isNotEmpty)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 23.w),
+              child: GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 20.w,
+                  mainAxisSpacing: 12.h,
+                  childAspectRatio: 142.w / 200.h,
+                ),
+                itemBuilder: (ctx, i) {
+                  // homeProvider.getArticles();
+                  return ArticleWidget(article: homeProvider.article[i]);
+                },
+                itemCount: homeProvider.article.length,
+              ),
+            ),
+            verticalSpace(24.h),
           ],
         ),
       ),

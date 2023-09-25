@@ -4,6 +4,7 @@ import 'package:aquaniti/features/dashboard/widgets/profile_stats_view.dart';
 import 'package:aquaniti/features/dashboard/widgets/water_footprint_listtile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -29,7 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 width: double.infinity,
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Your Water Footprint",
+                  AppLocalizations.of(context)!.yourWaterFootprint,
                   style:
                       TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp),
                 ),
@@ -58,9 +59,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         style: TextButton.styleFrom(
                             padding: EdgeInsets.only(left: 19.w)),
                         onPressed: () {},
-                        child: const Text(
-                          "View Entire History",
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.viewEntireHistory,
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: GlobalVariables.buttonColor,
                           ),
