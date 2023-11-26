@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<List<Map<String, dynamic>>> fetchNewsArticles() async {
-  final String apiKey = '127d6285e12a484986fd61e23d74ef19';
+  final String apiKey = 'API KEY';
   final String query = 'water+footprint+India';
   final String url =
       'https://newsapi.org/v2/everything?q=$query&apiKey=$apiKey';
