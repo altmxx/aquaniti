@@ -47,28 +47,31 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'YOUR API KEY',
-    appId: 'YOUR APP ID',
+    apiKey: 'AIzaSyBuwbYm5i93mZczzemKGK-T2RqbGHo9oCQ',
+    appId: '1:738811570166:web:2b31cf6f237ce7591849d7',
     messagingSenderId: '738811570166',
     projectId: 'aquaniti',
     authDomain: 'aquaniti.firebaseapp.com',
+    databaseURL: 'https://aquaniti-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'aquaniti.appspot.com',
     measurementId: 'G-7WEHS45HHD',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'YOUR API KEY',
-    appId: 'YOUR APP ID',
+    apiKey: 'AIzaSyC6tqaTQQr7cXajulT1iUapsUI7U7hZe0Y',
+    appId: '1:738811570166:android:b9a5fddb5cc62db01849d7',
     messagingSenderId: '738811570166',
     projectId: 'aquaniti',
+    databaseURL: 'https://aquaniti-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'aquaniti.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'YOUR API KEY',
-    appId: 'YOUR APP ID',
+    apiKey: 'AIzaSyCjWo_1hN7vC0E3FllgnPn43NSOZuJOOcE',
+    appId: '1:738811570166:ios:44a12ff9f3f329301849d7',
     messagingSenderId: '738811570166',
     projectId: 'aquaniti',
+    databaseURL: 'https://aquaniti-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'aquaniti.appspot.com',
     iosBundleId: 'com.example.aquaniti',
   );

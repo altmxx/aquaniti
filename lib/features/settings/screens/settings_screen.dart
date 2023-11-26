@@ -1,16 +1,20 @@
 import 'package:aquaniti/common/widgets.dart';
 import 'package:aquaniti/constants/global_variables.dart';
+import 'package:aquaniti/features/auth/screens/signIn_screen.dart';
+import 'package:aquaniti/features/auth/services/authProvider.dart';
 import 'package:aquaniti/main.dart';
 import 'package:aquaniti/models/language_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthenticationProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: GlobalVariables.primaryColor,
@@ -54,6 +58,23 @@ class SettingsScreen extends StatelessWidget {
                     onPressed: () {
                       MyApp.setLocale(context,
                           const Locale.fromSubtags(languageCode: 'en'));
+                    }),
+              ),
+              verticalSpace(50.h),
+              SizedBox(
+                width: double.infinity,
+                child: ThemeButton(
+                    borderRadius: 20.r,
+                    child: const Text(
+                      "Logout",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      authProvider.logout();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => SignInScreen()),
+                          ModalRoute.withName("/signInScreen"));
                     }),
               ),
             ],

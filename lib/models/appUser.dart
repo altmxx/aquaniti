@@ -10,6 +10,7 @@ class AppUser {
   String? city;
   int? pinCode;
   String? languagePreference;
+  String? profilePhoto;
   AppUser({
     this.uid,
     this.name,
@@ -19,6 +20,7 @@ class AppUser {
     this.city,
     this.pinCode,
     this.languagePreference,
+    this.profilePhoto,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,6 +33,7 @@ class AppUser {
       'city': city,
       'pinCode': pinCode,
       'languagePreference': languagePreference,
+      'profilePhoto': profilePhoto,
     };
   }
 
@@ -46,6 +49,8 @@ class AppUser {
       languagePreference: map['languagePreference'] != null
           ? map['languagePreference'] as String
           : null,
+      profilePhoto:
+          map['profilePhoto'] != null ? map['profilePhoto'] as String : null,
     );
   }
 

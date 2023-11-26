@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    final authProvider = Provider.of<AuthenticationProvider>(context);
     final signInProvider = Provider.of<SignInProvider>(context);
     return KeyboardDismisser(
       child: Scaffold(
@@ -121,8 +121,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         // _isLoading = true;
-                        signInProvider.username = usernameController.text;
-                        signInProvider.email = emailController.text;
+                        signInProvider.appUser.username =
+                            usernameController.text;
+                        signInProvider.appUser.email = emailController.text;
                         var userCreds =
                             await authProvider.registerUserWithEmail(
                                 usernameController.text,
@@ -134,10 +135,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //       .pushNamed(UserDetailScreen.routeName);
                         // }
                         // );
-                        signInProvider.uid = userCreds!.user!.uid;
-                        log(signInProvider.uid);
-                        Navigator.of(context)
-                            .pushNamed(UserDetailScreen.routeName);
+                        signInProvider.appUser.uid = userCreds!.user!.uid;
+                        log("The uid of the user after passing data from the signUp screen is ${signInProvider.appUser.uid}");
+                        if (context.mounted) {
+                          Navigator.of(context)
+                              .pushNamed(UserDetailScreen.routeName);
+                        }
                       }
                     },
                     child: const Text(

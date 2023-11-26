@@ -2,6 +2,9 @@ import 'package:aquaniti/common/widgets.dart';
 import 'package:aquaniti/constants/global_variables.dart';
 import 'package:aquaniti/features/auth/screens/signUp_screen.dart';
 import 'package:aquaniti/features/auth/services/authProvider.dart';
+import 'package:aquaniti/features/auth/services/signIn_provider.dart';
+import 'package:aquaniti/features/home/screens/main_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
@@ -24,7 +27,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    var auth = FirebaseAuth.instance;
+    final authProvider = Provider.of<AuthenticationProvider>(context);
+    final signInProvider = Provider.of<SignInProvider>(context);
     return KeyboardDismisser(
       child: Scaffold(
         backgroundColor: GlobalVariables.primaryColor,
@@ -51,9 +56,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         validator: (val) {
                           if (val == "") {
                             return "Please enter username";
-                          } else {
-                            return "";
                           }
+                          return null;
                         },
                       ),
                       verticalSpace(8.h),
@@ -64,9 +68,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         validator: (val) {
                           if (val == "") {
                             return "Please enter password";
-                          } else {
-                            return "";
                           }
+                          return null;
                         },
                       )
                     ],
@@ -84,7 +87,17 @@ class _SignInScreenState extends State<SignInScreen> {
                             isLoading = true;
                           });
                           await authProvider.signInWithEmail(
-                              usernameController.text, passwordController.text);
+                              usernameController.text,
+                              passwordController.text,
+                              context);
+
+                          signInProvider.appUser = await authProvider
+                              .fetchUserDatafromFirebaseFirestore(
+                                  authProvider.user!.uid);
+                          if (context.mounted) {
+                            Navigator.of(context)
+                                .pushReplacementNamed(MainScreen.routeName);
+                          }
                           setState(() {
                             isLoading = false;
                           });

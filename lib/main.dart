@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:aquaniti/constants/global_variables.dart';
+import 'package:aquaniti/features/auth/screens/signIn_screen.dart';
 import 'package:aquaniti/features/auth/services/authProvider.dart';
 import 'package:aquaniti/features/auth/services/signIn_provider.dart';
 import 'package:aquaniti/features/camera/cameras.dart';
@@ -11,13 +12,14 @@ import 'package:aquaniti/features/localization/locale_constants.dart';
 import 'package:aquaniti/firebase_options.dart';
 import 'package:aquaniti/router.dart';
 import 'package:camera/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 List<CameraDescription>? cameras;
 
@@ -30,9 +32,11 @@ Future<void> main() async {
   );
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (ctx) => SignInProvider()),
-    ChangeNotifierProvider(create: (ctx) => AuthProvider()),
+    ChangeNotifierProvider(create: (ctx) => AuthenticationProvider()),
     ChangeNotifierProvider(create: (ctx) => CameraScanProvider()),
-    ChangeNotifierProvider(create: (ctx) => InsightsProvider()),
+    ChangeNotifierProvider(
+        create: (ctx) =>
+            InsightsProvider(FirebaseAuth.instance.currentUser?.uid)),
     ChangeNotifierProvider(create: (ctx) => HomeProvider()),
   ], child: const MyApp()));
 }
@@ -42,9 +46,6 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
-
-  // static _MyAppState? of(BuildContext context) =>
-  //     context.findAncestorStateOfType<_MyAppState>();
   static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
     state?.setLocale(newLocale);
@@ -53,6 +54,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
+  bool isAuth = false;
 
   setLocale(Locale locale) {
     setState(() {
@@ -61,8 +63,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SharedPreferences.getInstance()
+        .then((value) => isAuth = value.getBool("isAuthenticated") ?? false);
+  }
+
+  @override
   void didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     getLocale().then((locale) {
       setState(() {
         _locale = locale;
@@ -74,23 +83,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // final authProvider = Provider.of<AuthProvider>(context);
-    // var prefs = SharedPreferences.getInstance();
+
     return ScreenUtilInit(
       designSize: const Size(360, 640),
       minTextAdapt: true,
       builder: ((context, child) {
-        // log(_locale.toString());
         return MaterialApp(
-          // supportedLocales: [],
           locale: _locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          // localeListResolutionCallback: (locale,supportedLocales){
-          //   for(var supportedLocale in supportedLocales){
-          //     if(supportedLocale.languageCode == locale.)
-          //   }
-          // },
-
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
@@ -99,29 +100,7 @@ class _MyAppState extends State<MyApp> {
                 ColorScheme.fromSeed(seedColor: GlobalVariables.primaryColor),
             useMaterial3: true,
           ),
-          // home: StreamBuilder<User?>(
-          //   stream: FirebaseAuth.instance.authStateChanges(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const Scaffold(
-          //         body: Center(
-          //           child: Text('Adasd'),
-          //         ),
-          //       );
-          //     } else if (snapshot.hasData) {
-          //       WidgetsBinding.instance.addPostFrameCallback((_) {
-          //         Navigator.of(context)
-          //             .pushReplacementNamed(HomeScreen.routeName);
-          //       });
-          //       return const SizedBox(
-          //         child: Text("Not Working"),
-          //       );
-          //     } else {
-          //       return const SignInScreen();
-          //     }
-          //   },
-          // ),
-          home: const MainScreen(),
+          home: isAuth ? const MainScreen() : const SignInScreen(),
           onGenerateRoute: (settings) => generateRoute(settings),
         );
       }),

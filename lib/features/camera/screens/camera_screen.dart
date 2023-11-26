@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:aquaniti/features/auth/services/signIn_provider.dart';
 import 'package:aquaniti/features/insights/services/insightsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
@@ -127,8 +128,25 @@ class _CameraScreenState extends State<CameraScreen> {
                     final recognition = _recognitions![index];
                     return ListTile(
                       onTap: () async {
+                        var signInProvider =
+                            Provider.of<SignInProvider>(context, listen: false);
                         await insightsProvider.getWaterFootprintData(
-                            recognition["detectedClass"]);
+                            recognition["detectedClass"],
+                            signInProvider.appUser.uid!);
+                        await insightsProvider
+                            .addWaterFootprintDataToStateAndCityCollections(
+                              signInProvider.appUser.state!,
+                              signInProvider.appUser.city!,
+                              insightsProvider
+                                  .waterFootprint.greenWaterFootprint,
+                              insightsProvider
+                                  .waterFootprint.greyWaterFootprint,
+                              insightsProvider
+                                  .waterFootprint.blueWaterFootprint,
+                            )
+                            .then((value) => log(
+                                "Water Footprint Data also added to States Collection"));
+
                         Fluttertoast.showToast(
                             msg:
                                 "The water footprint of the selected item is ${insightsProvider.waterFootprint.totalWaterFootprint} Litres");

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -21,7 +22,12 @@ class InsightsProvider with ChangeNotifier {
   var _todayWaterFootprint = 0.0;
   var _monthlyWaterFootprint = 0.0;
   var _averageWaterFootprint = 0.0;
+  List<Map<String, dynamic>> _dailyTotals = [];
+  StreamSubscription<QuerySnapshot>? _streamSubscription;
 
+  List<Map<String, dynamic>> get dailyTotals => _dailyTotals;
+  Stream<List<Map<String, dynamic>>> get waterFootprintStream =>
+      Stream.value(_dailyTotals);
   WaterFootprint get waterFootprint => _waterFootprint;
   double get todayWaterFootprint => _todayWaterFootprint;
   double get monthlyWaterFootprint => _monthlyWaterFootprint;
@@ -42,39 +48,114 @@ class InsightsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<QuerySnapshot> getStatsData() {
+  InsightsProvider(String? userId) {
+    if (userId != null) {
+      _streamSubscription = firestore
+          .collection("users")
+          .doc(userId)
+          .collection("waterfootprints")
+          .snapshots()
+          .listen((querySnapshot) {
+        fetchWaterFootprintData(userId);
+      });
+    }
+  }
+
+  Future<void> fetchWaterFootprintData(String userId) async {
+    try {
+      final now = DateTime.now();
+      final last7Days = now.subtract(const Duration(days: 7));
+
+      final querySnapshot = await firestore
+          .collection("users")
+          .doc(userId)
+          .collection("waterfootprints")
+          .where('date', isGreaterThan: last7Days.millisecondsSinceEpoch)
+          .get();
+
+      final filteredDocs = querySnapshot.docs;
+
+      final dailyTotals = Map<String, dynamic>.from({
+        'Monday': 0.0,
+        'Tuesday': 0.0,
+        'Wednesday': 0.0,
+        'Thursday': 0.0,
+        'Friday': 0.0,
+        'Saturday': 0.0,
+        'Sunday': 0.0,
+      });
+
+      filteredDocs.forEach((doc) {
+        final docDate = DateTime.fromMillisecondsSinceEpoch(doc['date']);
+        final dayOfWeek = docDate.weekday;
+        final dayOfWeekString = _getDayOfWeekString(dayOfWeek);
+        dailyTotals[dayOfWeekString] += doc['total_water_footprint'];
+      });
+
+      _dailyTotals = dailyTotals.entries
+          .map((entry) =>
+              {'dayOfWeek': entry.key.substring(0, 3), 'total': entry.value})
+          .toList();
+      notifyListeners();
+    } catch (e) {
+      log("Error in fetchWaterFootprintData() function${e.toString()}");
+    }
+  }
+
+  String _getDayOfWeekString(int dayOfWeek) {
+    switch (dayOfWeek) {
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+      case 7:
+        return 'Sunday';
+      default:
+        return '';
+    }
+  }
+
+  Stream<QuerySnapshot> getStatsData(String uid) {
     var snapshot = firestore
         .collection('users')
-        .doc("c4wQT8xnxNOlT0fZCYgEiiykESH3")
+        .doc(uid)
         .collection('waterfootprints')
         .snapshots();
     // notifyListeners();
     return snapshot;
   }
 
-  Stream<QuerySnapshot> getLastSevenDaysData() {
-    var snapshot = firestore
-        .collection("users")
-        .doc("c4wQT8xnxNOlT0fZCYgEiiykESH3")
-        .collection("waterfootprints")
-        .snapshots();
-    return snapshot;
-  }
+  // Stream<QuerySnapshot> getLastSevenDaysData(String uid) {
+  //   var snapshot = firestore
+  //       .collection("users")
+  //       .doc(uid)
+  //       .collection("waterfootprints")
+  //       .snapshots();
+  //   return snapshot;
+  // }
 
-  Future<void> getWaterFootprintData(String product) async {
+  Future<void> getWaterFootprintData(String product, String uid) async {
     var response = await http.get(Uri.parse(
         "https://aquaniti-default-rtdb.asia-southeast1.firebasedatabase.app/data.json"));
     // log(response.body);
     var data = jsonDecode(response.body) as List<dynamic>;
     for (int i = 0; i < data.length; i++) {
       if (data[i]['Product'] == product.toLowerCase()) {
-        log(WaterFootprint.fromMap(data[i]).toString());
+        log("Waterfootprint data recieved ${WaterFootprint.fromMap(data[i]).toString()}");
         _waterFootprint = WaterFootprint.fromMap(data[i]);
         var waterFootprintMap = _waterFootprint.toMap();
         waterFootprintMap['date'] = DateTime.now().millisecondsSinceEpoch;
-        firestore
+        await firestore
             .collection("users")
-            .doc("c4wQT8xnxNOlT0fZCYgEiiykESH3")
+            .doc(uid)
             .collection("waterfootprints")
             .add(waterFootprintMap);
         notifyListeners();
@@ -91,5 +172,37 @@ class InsightsProvider with ChangeNotifier {
         greenWaterFootprint: 0,
         totalWaterFootprint: 0);
     notifyListeners();
+  }
+
+  Future<void> addWaterFootprintDataToStateAndCityCollections(
+      String stateName,
+      String cityName,
+      double greenWaterFootprint,
+      double greyWaterFootprint,
+      double blueWaterFootprint) async {
+    final docRef = await firestore
+        .collection("states")
+        .doc(stateName)
+        .collection("cities")
+        .doc(cityName);
+    final cityData = (await docRef.get()).data();
+    if (cityData == null) {
+      await docRef.set({
+        'cityName': cityName,
+        'green_water_footprint': greenWaterFootprint,
+        'blue_water_footprint': blueWaterFootprint,
+        'grey_water_footprint': greyWaterFootprint,
+        'total_water_footprint':
+            greenWaterFootprint + blueWaterFootprint + greyWaterFootprint,
+      });
+    } else {
+      docRef.update({
+        "green_water_footprint": FieldValue.increment(greenWaterFootprint),
+        "blue_water_footprint": FieldValue.increment(blueWaterFootprint),
+        "grey_water_footprint": FieldValue.increment(greyWaterFootprint),
+        "total_water_footprint": FieldValue.increment(
+            greenWaterFootprint + blueWaterFootprint + greyWaterFootprint),
+      });
+    }
   }
 }

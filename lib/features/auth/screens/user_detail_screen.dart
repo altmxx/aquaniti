@@ -47,9 +47,9 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    // final authProvider = Provider.of<AuthProvider>(context);
     final signInProvider = Provider.of<SignInProvider>(context);
-    log("In Details Screen, Uid is ${signInProvider.uid}");
+    log("In Details Screen, Uid is ${signInProvider.appUser.uid}");
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -199,29 +199,31 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                           if (_formKey.currentState!.validate() &&
                               state != "Select State" &&
                               languagePreference != "Select Language") {
-                            signInProvider.name = nameController.text;
-                            signInProvider.state = state;
-                            signInProvider.city = cityController.text;
-                            signInProvider.pincode = pincodeController.text;
-                            signInProvider.state = state;
-                            signInProvider.language = languagePreference;
-                            log(signInProvider.uid);
-                            await AuthProvider.registerUser(AppUser(
-                              uid: signInProvider.uid,
-                              name: signInProvider.name,
-                              username: signInProvider.username,
-                              email: signInProvider.email,
-                              state: signInProvider.state,
-                              city: signInProvider.city,
-                              pinCode: int.parse(pincodeController.text),
-                              languagePreference: signInProvider.language,
-                            ));
+                            // signInProvider.name = nameController.text;
+                            // signInProvider.state = state;
+                            // signInProvider.city = cityController.text;
+                            // signInProvider.pincode = pincodeController.text;
+                            // signInProvider.state = state;
+                            // signInProvider.language = languagePreference;
+                            signInProvider.appUser.name = nameController.text;
+                            signInProvider.appUser.state = state;
+                            signInProvider.appUser.city = cityController.text;
+                            signInProvider.appUser.pinCode =
+                                int.parse(pincodeController.text);
+                            signInProvider.appUser.languagePreference =
+                                languagePreference;
+                            // log(signInProvider.uid);
+                            log("the data stored in signIn Provider is${signInProvider.appUser.toMap()}");
+                            await AuthenticationProvider.registerUser(
+                                signInProvider.appUser);
                             Fluttertoast.showToast(
                                 msg:
                                     "User has been created. Login to continue");
-                            Navigator.of(context).pop();
-                            Navigator.of(context)
-                                .pushReplacementNamed(SignInScreen.routeName);
+                            if (context.mounted) {
+                              Navigator.of(context).pop();
+                              Navigator.of(context)
+                                  .pushReplacementNamed(SignInScreen.routeName);
+                            }
                           }
                         },
                         borderRadius: 20.r,

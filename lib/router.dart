@@ -2,6 +2,7 @@ import 'package:aquaniti/features/auth/screens/signIn_screen.dart';
 import 'package:aquaniti/features/auth/screens/signUp_screen.dart';
 import 'package:aquaniti/features/auth/screens/user_detail_screen.dart';
 import 'package:aquaniti/features/home/screens/home_screen.dart';
+import 'package:aquaniti/features/home/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -14,6 +15,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(builder: (_) => UserDetailScreen());
     case HomeScreen.routeName:
       return MaterialPageRoute(builder: (_) => HomeScreen());
+    case MainScreen.routeName:
+      return MaterialPageRoute(builder: (_) => MainScreen());
     default:
       return MaterialPageRoute(
           settings: routeSettings,

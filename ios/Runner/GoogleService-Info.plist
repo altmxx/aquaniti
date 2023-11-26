@@ -26,5 +26,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:738811570166:ios:44a12ff9f3f329301849d7</string>
+	<key>DATABASE_URL</key>
+	<string>https://aquaniti-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
 </plist>

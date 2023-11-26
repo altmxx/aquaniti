@@ -20,7 +20,7 @@ class HomeProvider with ChangeNotifier {
           "X-Access-Key": Secrets.XAccessKey,
         });
     var data = jsonDecode(response.body)['record']['articles'] as List<dynamic>;
-    log(data.length.toString());
+    log("Length of articles ${data.length.toString()}");
     for (int i = 0; i < data.length; i++) {
       // log(data[i].toString());
       _article.add(Article.fromMap(data[i]));

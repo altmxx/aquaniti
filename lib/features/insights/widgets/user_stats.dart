@@ -17,9 +17,11 @@ class UserStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final documents = snapshot.data!.docs;
+    var averageWaterFootprint = 0.0;
     //Calculate Todays water footprint
-    log(documents.length.toString());
+    log("Length of UserStats ${documents.length.toString()}");
     final today = DateTime.now();
+
     final todayWaterFootprint = documents
         .where((doc) {
           final docDate = DateTime.fromMillisecondsSinceEpoch(doc['date']);
@@ -31,11 +33,14 @@ class UserStats extends StatelessWidget {
         .fold<double>(0, (sum, footprint) => sum + footprint);
 
     //Calculate Average Water Footprint
-    final averageWaterFootprint = documents
-            .map((doc) => doc['total_water_footprint'] as double)
-            .fold<double>(0, (sum, footprint) => sum + footprint) /
-        documents.length;
-
+    if (documents.isNotEmpty) {
+      averageWaterFootprint = documents
+              .map((doc) => doc['total_water_footprint'] as double)
+              .fold<double>(0, (sum, footprint) => sum + footprint) /
+          documents.length;
+    } else {
+      averageWaterFootprint = 0.0;
+    }
     //Calculate Monthly Water Footprint
     final currentMonth = DateTime(today.year, today.month);
     final monthlyWaterFootprint = documents
