@@ -14,6 +14,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../dashboard/services/dashboard_provider.dart';
+
 var currentIndex = 1;
 
 class MainScreen extends StatefulWidget {
@@ -30,6 +32,8 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    final dashboardProvider =
+        Provider.of<DashboardProvider>(context, listen: false);
     SharedPreferences.getInstance().then((prefs) {
       var uid = prefs.getString("uid");
       if (uid != null) {
@@ -37,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
         final signInProvider =
             Provider.of<SignInProvider>(context, listen: false);
         signInProvider.fetchAndSetUser(uid);
+        dashboardProvider.getLatestWaterFootprintsOfUser(uid);
       }
     });
     setState(() {});

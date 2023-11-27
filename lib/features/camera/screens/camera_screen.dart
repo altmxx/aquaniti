@@ -67,6 +67,13 @@ class _CameraScreenState extends State<CameraScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    Tflite.close();
+  }
+
   // display the bounding boxes over the detected objects
   List<Widget> renderBoxes(Size screen) {
     if (_recognitions == null) return [];
@@ -109,7 +116,7 @@ class _CameraScreenState extends State<CameraScreen> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -131,6 +138,7 @@ class _CameraScreenState extends State<CameraScreen> {
                         var signInProvider =
                             Provider.of<SignInProvider>(context, listen: false);
                         await insightsProvider.getWaterFootprintData(
+                            _image!,
                             recognition["detectedClass"],
                             signInProvider.appUser.uid!);
                         await insightsProvider

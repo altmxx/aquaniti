@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:aquaniti/models/waterFootprint.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 
 // import '../../auth/services/authProvider.dart';
 
@@ -142,7 +146,36 @@ class InsightsProvider with ChangeNotifier {
   //   return snapshot;
   // }
 
-  Future<void> getWaterFootprintData(String product, String uid) async {
+  Future<String> uploadFileAndGetUrl(
+    File file,
+    String uid,
+  ) async {
+    try {
+      List<int> imageBytes = await file.readAsBytes();
+      img.Image image = img.decodeImage(Uint8List.fromList(imageBytes))!;
+
+      img.Image resizedImage = img.copyResize(image, width: 500);
+      List<int> compressByBytes = img.encodeJpg(resizedImage, quality: 50);
+
+      File compressedFile = File(file.path);
+      await compressedFile.writeAsBytes(compressByBytes);
+
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child("waterfootprint/images/$uid/$fileName.jpg  ");
+      await ref.putFile(compressedFile);
+      String downloadUrl = await ref.getDownloadURL();
+      print("File Uploaded successfuly. Download Url is $downloadUrl");
+      return downloadUrl;
+    } catch (e) {
+      print("Error in uploadFileAndGetUrl() function: ${e.toString()}");
+      return "";
+    }
+  }
+
+  Future<void> getWaterFootprintData(
+      File file, String product, String uid) async {
     var response = await http.get(Uri.parse(
         "https://aquaniti-default-rtdb.asia-southeast1.firebasedatabase.app/data.json"));
     // log(response.body);
@@ -151,8 +184,10 @@ class InsightsProvider with ChangeNotifier {
       if (data[i]['Product'] == product.toLowerCase()) {
         log("Waterfootprint data recieved ${WaterFootprint.fromMap(data[i]).toString()}");
         _waterFootprint = WaterFootprint.fromMap(data[i]);
+        var downloadUrl = await uploadFileAndGetUrl(file, uid);
         var waterFootprintMap = _waterFootprint.toMap();
         waterFootprintMap['date'] = DateTime.now().millisecondsSinceEpoch;
+        waterFootprintMap['imageUrl'] = downloadUrl;
         await firestore
             .collection("users")
             .doc(uid)

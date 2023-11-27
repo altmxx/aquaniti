@@ -1,11 +1,21 @@
-import 'package:aquaniti/common/widgets.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:aquaniti/common/widgets.dart';
 
 import '../../../constants/global_variables.dart';
 
 class ProfileStatsView extends StatelessWidget {
-  const ProfileStatsView({super.key});
+  final String name;
+  final String city;
+  final String state;
+  const ProfileStatsView({
+    Key? key,
+    required this.name,
+    required this.city,
+    required this.state,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +39,9 @@ class ProfileStatsView extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Alan Becker"),
-                  Text("Jaipur"),
-                  Text("Rajasthan"),
+                  Text(name),
+                  Text(city),
+                  Text(state),
                 ],
               )
             ],

@@ -21,6 +21,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'features/dashboard/services/dashboard_provider.dart';
+
 List<CameraDescription>? cameras;
 
 Future<void> main() async {
@@ -38,6 +40,7 @@ Future<void> main() async {
         create: (ctx) =>
             InsightsProvider(FirebaseAuth.instance.currentUser?.uid)),
     ChangeNotifierProvider(create: (ctx) => HomeProvider()),
+    ChangeNotifierProvider(create: (ctx) => DashboardProvider())
   ], child: const MyApp()));
 }
 
