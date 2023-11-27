@@ -9,6 +9,7 @@ import 'package:aquaniti/features/home/screens/main_screen.dart';
 import 'package:aquaniti/features/home/services/home_services.dart';
 import 'package:aquaniti/features/insights/services/insightsProvider.dart';
 import 'package:aquaniti/features/localization/locale_constants.dart';
+import 'package:aquaniti/features/marketplace/services/marketplace_service.dart';
 import 'package:aquaniti/firebase_options.dart';
 import 'package:aquaniti/router.dart';
 import 'package:camera/camera.dart';
@@ -40,7 +41,8 @@ Future<void> main() async {
         create: (ctx) =>
             InsightsProvider(FirebaseAuth.instance.currentUser?.uid)),
     ChangeNotifierProvider(create: (ctx) => HomeProvider()),
-    ChangeNotifierProvider(create: (ctx) => DashboardProvider())
+    ChangeNotifierProvider(create: (ctx) => DashboardProvider()),
+    ChangeNotifierProvider(create: (ctx) => MarketplaceProvider()),
   ], child: const MyApp()));
 }
 

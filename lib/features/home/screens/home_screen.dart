@@ -1,6 +1,7 @@
 import 'package:aquaniti/common/widgets.dart';
 import 'package:aquaniti/features/home/services/home_services.dart';
 import 'package:aquaniti/features/home/widgets/article_widget.dart';
+import 'package:aquaniti/features/home/widgets/home_screen_carousel.dart';
 import 'package:aquaniti/features/marketplace/screens/marketplace_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,14 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               verticalSpace(30.h),
-              Container(
-                width: 314.w,
-                height: 180.h,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-              ),
+              // Container(
+              //   width: 314.w,
+              //   height: 180.h,
+              //   decoration: BoxDecoration(
+              //     color: Colors.grey,
+              //     borderRadius: BorderRadius.circular(10.r),
+              //   ),
+              // ),
+              const HomeScreenCarousel(),
               verticalSpace(26.h),
               Container(
                 margin: EdgeInsets.only(left: 23.w),
@@ -86,7 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MarketPlaceScreen()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => MarketPlaceScreen()));
           },
           label: const Row(
             children: [

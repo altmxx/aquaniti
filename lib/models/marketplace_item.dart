@@ -6,6 +6,7 @@ class MarketPlaceItem {
   String name;
   String bName;
   String description;
+  String image;
   int price;
   double waterFootprint;
   MarketPlaceItem({
@@ -13,6 +14,7 @@ class MarketPlaceItem {
     required this.name,
     required this.bName,
     required this.description,
+    required this.image,
     required this.price,
     required this.waterFootprint,
   });
@@ -23,6 +25,7 @@ class MarketPlaceItem {
       'name': name,
       'bName': bName,
       'description': description,
+      'image': image,
       'price': price,
       'waterFootprint': waterFootprint,
     };
@@ -34,12 +37,14 @@ class MarketPlaceItem {
       name: map['name'] as String,
       bName: map['bName'] as String,
       description: map['description'] as String,
+      image: map['image'] as String,
       price: map['price'] as int,
-      waterFootprint: map['waterFootprint'] as double,
+      waterFootprint: map['waterFootprint'].toDouble(),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory MarketPlaceItem.fromJson(String source) => MarketPlaceItem.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory MarketPlaceItem.fromJson(String source) =>
+      MarketPlaceItem.fromMap(json.decode(source) as Map<String, dynamic>);
 }

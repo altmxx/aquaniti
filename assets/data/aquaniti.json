@@ -1,0 +1,303 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_category",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_product",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_blue",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_green",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_grey",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_total",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "addWaterFootprint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_category",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_product",
+				"type": "string"
+			}
+		],
+		"name": "fetchWaterFootprintByCategoryAndProduct",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "category",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "product",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "blue_water_footprint",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "green_water_footprint",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "grey_water_footprint",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "total_water_footprint",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct WaterFootprintTracker.WaterFootprint",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "category",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "product",
+				"type": "string"
+			}
+		],
+		"name": "WaterFootprintAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "category",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "product",
+				"type": "string"
+			}
+		],
+		"name": "WaterFootprintFetched",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "fetchWaterFootprintById",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "category",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "product",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "blue_water_footprint",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "green_water_footprint",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "grey_water_footprint",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "total_water_footprint",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct WaterFootprintTracker.WaterFootprint",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "idByCategoryAndProduct",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "waterFootprintsById",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "category",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "product",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "blue_water_footprint",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "green_water_footprint",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "grey_water_footprint",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "total_water_footprint",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
