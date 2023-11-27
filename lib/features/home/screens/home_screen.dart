@@ -1,6 +1,7 @@
 import 'package:aquaniti/common/widgets.dart';
 import 'package:aquaniti/features/home/services/home_services.dart';
 import 'package:aquaniti/features/home/widgets/article_widget.dart';
+import 'package:aquaniti/features/marketplace/screens/marketplace_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -84,7 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MarketPlaceScreen()));
+          },
           label: const Row(
             children: [
               Text(
