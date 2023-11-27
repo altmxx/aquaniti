@@ -21,6 +21,13 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     final signInProvider = Provider.of<SignInProvider>(context);
     final dashboardProvider = Provider.of<DashboardProvider>(context);
@@ -59,40 +66,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    dashboardProvider.waterFootprints.isEmpty
-                        ? const CircularProgressIndicator()
-                        : StreamBuilder<QuerySnapshot>(
-                            stream: dashboardProvider
-                                .getLatestWaterFootprintsOfUser(
-                                    signInProvider.appUser.uid!),
-                            builder:
-                                (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
-                              }
-                              if (snapshot.hasError) {
-                                return Text("Error: ${snapshot.error}");
-                              }
-                              if (!snapshot.hasData ||
-                                  snapshot.data!.docs.isEmpty) {
-                                return const Text("No data available");
-                              }
-                              return ListView.separated(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  return WaterFootprintListTile(
-                                    waterFootprint: WaterFootprint.fromMap(
-                                        snapshot.data!.docs[index].data()
-                                            as Map<String, dynamic>),
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return verticalSpace(12.h);
-                                },
+                    StreamBuilder<QuerySnapshot>(
+                        stream:
+                            dashboardProvider.getLatestWaterFootprintsOfUser(
+                                signInProvider.appUser.uid!),
+                        builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                          if (snapshot.hasError) {
+                            return Text("Error: ${snapshot.error}");
+                          }
+                          if (!snapshot.hasData ||
+                              snapshot.data!.docs.isEmpty) {
+                            return const Text("No data available");
+                          }
+                          return ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              return WaterFootprintListTile(
+                                waterFootprint: WaterFootprint.fromMap(
+                                    snapshot.data!.docs[index].data()
+                                        as Map<String, dynamic>),
                               );
-                            }),
+                            },
+                            separatorBuilder: (context, index) {
+                              return verticalSpace(12.h);
+                            },
+                          );
+                        }),
                     TextButton(
                         style: TextButton.styleFrom(
                             padding: EdgeInsets.only(left: 19.w)),
